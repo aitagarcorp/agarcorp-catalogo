@@ -1499,6 +1499,7 @@ function addAnnotations() {
 // --- Modo exposición (Agarcorp, 20 nov 2026; tools/holo_expo.py): el panel manda {type:"als:expo", on}. ---
 (function () {
   if (window.parent === window || typeof model === "undefined" || typeof camera === "undefined" || typeof controls === "undefined") return;
+  const RECOGER = false;            // recoger el panel de texto al empezar (solo algunos hologramas, ver RECOGE_PANEL)
   const VEL = 0.18;                       // rad/s: una vuelta cada ~35 s (dos y media en el minuto y medio)
   const MX = 0.90, MY = 0.86;             // la figura ocupa hasta el 90 % del ancho y el 86 % del alto
   const ELEV_MIN = 6, ELEV_MAX = 24;      // grados: la cámara mira un poco desde arriba, como en la vista de cada holograma
@@ -1633,6 +1634,7 @@ function addAnnotations() {
     if (!listo() || !mallas) { espera = setTimeout(empezar, 250); return; }   // todavía cargando el modelo
     if (!on) return;
     perfil = perfil || medir();
+    if (RECOGER) { const panel = document.querySelector(".panel"); if (panel && !panel.classList.contains("plegado")) { const b = panel.querySelector(".plegar"); if (b) b.click(); } }
     pulsa("labels", true); pulsa("spin", true);
     window.expoVel = VEL; model.rotation.y = 0;
     encuadrar();
